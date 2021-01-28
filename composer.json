@@ -1,0 +1,19 @@
+{
+    "name": "beedelivery/atarb2b",
+    "description": "Package for integration with atar b2b",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luan",
+            "email": "luan@luanrodrigues.com.br"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "BeeDelivery\\AtarB2B\\": "src/"
+        }
+    },
+    "require": {}
+}
