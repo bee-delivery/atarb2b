@@ -1,12 +1,12 @@
 {
     "name": "beedelivery/atarb2b",
-    "description": "Package for integration with atar b2b",
+    "description": "Package for integration with Atar B2B.",
     "type": "project",
     "license": "MIT",
     "authors": [
         {
-            "name": "Luan",
-            "email": "luan@luanrodrigues.com.br"
+            "name": "Bee Delivery",
+            "email": "suporte@beedelivery.com.br"
         }
     ],
     "minimum-stability": "dev",
@@ -15,5 +15,8 @@
             "BeeDelivery\\AtarB2B\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+        "php": ">=7.3.26",
+        "guzzlehttp/guzzle": "^6.3"
+    }
 }
