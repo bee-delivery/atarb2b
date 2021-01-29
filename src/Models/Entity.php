@@ -2,75 +2,132 @@
 
 namespace BeeDelivery\AtarB2B\Models;
 
+use BeeDelivery\AtarB2B\Utils\Connection;
+
 class Entity
 {
+    public $http;
+    protected $entity;
 
-    const DOCUMENT_TYPE_CPF = 'cpf';
-    const DOCUMENT_TYPE_CNPJ = 'cnpj';
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getDocumentTypeAllowableValues()
+    public function __construct($userKey = null, $atarApiKey = null)
     {
-        return [
-            self::DOCUMENT_TYPE_CPF,
-            self::DOCUMENT_TYPE_CNPJ,
-        ];
+        $this->http = new Connection($userKey, $atarApiKey);
     }
 
     /**
-     * Associative array for storing property values
+     * Create an entity for the customer and return a Person with your newly created atarId.
      *
-     * @var mixed[]
+     * @see https://baas-dot-wearatar-dev.appspot.com/docs/origination
+     * @param Array $entity
+     * @return Array
      */
-    protected $container = [];
-
-    /**
-     * Constructor
-     *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
-     */
-    public function __construct(array $data = null)
+    public function create($entity)
     {
-        $this->container['atar_id'] = isset($data['atar_id']) ? $data['atar_id'] : null;
-        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
-        $this->container['document'] = isset($data['document']) ? $data['document'] : null;
-        $this->container['document_type'] = isset($data['document_type']) ? $data['document_type'] : null;
+        $entity = $this->setEntity($entity);
+
+        return $this->http->post('/entities', ['form_params' => $entity]);
     }
 
     /**
-     * Show all the invalid properties with reasons.
+     * Retrieves a customer full entity.
      *
-     * @return array invalid properties with reasons
+     * @see https://baas-dot-wearatar-dev.appspot.com/docs/origination
+     * @param String $atarId
+     * @return Array
      */
-    public function listInvalidProperties()
+    public function getFullEntity($atarId)
     {
-        $invalidProperties = [];
+        return $this->http->get('/entities/' . $atarId );
+    }
 
-        $allowedValues = $this->getDocumentTypeAllowableValues();
-        if (!is_null($this->container['document_type']) && !in_array($this->container['document_type'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value for 'document_type', must be one of '%s'",
-                implode("', '", $allowedValues)
+    /**
+     * Merge the entity's information.
+     *
+     * @param Array $entity
+     * @return Array
+     */
+    public function setEntity($entity)
+    {
+        try {
+
+            if ( ! $this->entity_is_valid($entity) ) {
+                throw new \Exception('Dados inválidos.');
+            }
+
+            $this->entity = array(
+                "atarId" => '',
+                "name" => '',
+                "document" => '',
+                "documentType" => '',
+                "email" => '',
+                "addresses" => [
+                    {
+                        "street" => '',
+                        "streetNumber" => '',
+                        "complement" => '',
+                        "neighborhood" => '',
+                        "city" => '',
+                        "state" => '',
+                        "country" => '',
+                        "zipcode" => ''
+                    }
+                ],
+                "birthDate" => '',
+                "mothersName" => '',
+                "phone" => '',
+                "gender" => '',
+                "citizenship" => '',
+                "ppe" => '',
+                "fiscalCountry" => '',
+                "cboId" => '',
+                "rgNumber" => '',
+                "monthlyIncome" => '',
+                "patrimony" => '',
+                "creationDate" => ''
             );
-        }
 
-        return $invalidProperties;
+            $this->entity = array_merge($this->entity, $entity);
+            return $this->entity;
+
+        } catch (\Exception $e) {
+            return 'Erro ao definir o entity. - ' . $e->getMessage();
+        }
     }
 
     /**
-     * Validate all the properties in the model
-     * return true if all passed
+     * Verifica se os dados da transferência são válidas.
      *
-     * @return bool True if all properties are valid
+     * @param array $entity
+     * @return Boolean
      */
-    public function valid()
+    public function entity_is_valid($entity)
     {
-        return count($this->listInvalidProperties()) === 0;
+        return ! (
+            empty($entity['atarId']) OR
+            empty($entity['name']) OR
+            empty($entity['document']) OR
+            empty($entity['document_type']) OR
+            empty($entity['email']) OR
+            empty($entity['addresses']['street']) OR
+            empty($entity['addresses']['streetNumber']) OR
+            empty($entity['addresses']['complement']) OR
+            empty($entity['addresses']['neighborhood']) OR
+            empty($entity['addresses']['city']) OR
+            empty($entity['addresses']['state']) OR
+            empty($entity['addresses']['country']) OR
+            empty($entity['addresses']['zipcode']) OR
+            empty($entity['birthDate']) OR
+            empty($entity['mothersName']) OR
+            empty($entity['phone']) OR
+            empty($entity['gender']) OR
+            empty($entity['citizenship']) OR
+            empty($entity['ppe']) OR
+            empty($entity['fiscalCountry']) OR
+            empty($entity['cboId']) OR
+            empty($entity['rgNumber']) OR
+            empty($entity['monthlyIncome']) OR
+            empty($entity['patrimony']) OR
+            empty($entity['creationDate'])
+        );
     }
-
 }
