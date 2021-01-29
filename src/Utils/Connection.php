@@ -1,6 +1,6 @@
 <?php
 
-namespace BeeDelivery\AtarB2B;
+namespace BeeDelivery\AtarB2B\Utils;
 
 use GuzzleHttp\Client;
 
@@ -8,19 +8,15 @@ class Connection {
 
     protected $http;
     protected $base_url;
-    protected $email;
-    protected $token;
 
-    public function __construct($clienteEmail, $clienteToken) {
-
-
-        $this->base_url     = config('atar.base_url');
-        $this->email        = $clienteEmail;
-        $this->token        = $clienteToken;
+    public function __construct($userKey, $atarApiKey)
+    {
+        $this->base_url = config('atar.base_url');
 
         $headers = [
             'Content-Type'  => 'application/json',
-            'Authorization' => 'Basic ' . base64_encode($this->email.':'.$this->token)
+            'Authorization' => 'Basic ' . base64_encode($userKey),
+            'Atar-ApiKey' => $atarApiKey
         ];
 
         $this->http = new Client([
