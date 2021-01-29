@@ -9,9 +9,9 @@ class Entity
     public $http;
     protected $entity;
 
-    public function __construct($userKey = null, $atarApiKey = null)
+    public function __construct()
     {
-        $this->http = new Connection($userKey, $atarApiKey);
+        $this->http = new Connection();
     }
 
     /**
@@ -37,7 +37,7 @@ class Entity
      */
     public function getFullEntity($atarId)
     {
-        return $this->http->get('/entities/' . $atarId );
+        return $this->http->get('/entities/' . $atarId);
     }
 
     /**
@@ -88,7 +88,6 @@ class Entity
 
             $this->entity = array_merge($this->entity, $entity);
             return $this->entity;
-
         } catch (\Exception $e) {
             return 'Erro ao definir o entity. - ' . $e->getMessage();
         }
