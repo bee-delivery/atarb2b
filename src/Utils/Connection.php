@@ -9,7 +9,7 @@ class Connection {
     protected $http;
     protected $base_url;
 
-    public function __construct()
+    public function __construct($atarId = null)
     {
         $this->base_url = config('atar.base_url');
 
@@ -18,6 +18,10 @@ class Connection {
             'Authorization' => 'Basic ' . base64_encode(config('atar.basic_user') . ':' . config('atar.basic_password')),
             'Atar-ApiKey' => config('atar.api_key')
         ];
+
+        if($atarId != null) {
+            $headers['Atar-ID'] = $atarId;
+        }
 
         $this->http = new Client([
             'headers' => $headers

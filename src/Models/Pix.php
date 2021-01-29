@@ -9,9 +9,9 @@ class Pix
     public $http;
     protected $pix;
 
-    public function __construct()
+    public function __construct($atarId)
     {
-        $this->http = new Connection();
+        $this->http = new Connection($atarId);
     }
 
     /**
