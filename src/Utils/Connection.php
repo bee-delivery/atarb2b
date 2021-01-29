@@ -9,14 +9,14 @@ class Connection {
     protected $http;
     protected $base_url;
 
-    public function __construct($userKey, $atarApiKey)
+    public function __construct()
     {
         $this->base_url = config('atar.base_url');
 
         $headers = [
             'Content-Type'  => 'application/json',
-            'Authorization' => 'Basic ' . base64_encode($userKey),
-            'Atar-ApiKey' => $atarApiKey
+            'Authorization' => 'Basic ' . base64_encode(config('atar.basic_user') . ':' . config('atar.basic_password')),
+            'Atar-ApiKey' => config('atar.api_key')
         ];
 
         $this->http = new Client([
