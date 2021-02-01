@@ -17,11 +17,8 @@ class Connection {
             'Content-Type'  => 'application/json',
             'Authorization' => 'Basic ' . base64_encode(config('atar.basic_user') . ':' . config('atar.basic_password')),
             'Atar-ApiKey' => config('atar.api_key')
+            'Atar-ID' = config('atar.atar_id');
         ];
-
-        if($atarId != null) {
-            $headers['Atar-ID'] = $atarId;
-        }
 
         $this->http = new Client([
             'headers' => $headers
