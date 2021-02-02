@@ -1,6 +1,6 @@
 <?php
 
-namespace BeeDelivery\Atar;
+namespace BeeDelivery\AtarB2B;
 
 use Illuminate\Support\ServiceProvider;
 

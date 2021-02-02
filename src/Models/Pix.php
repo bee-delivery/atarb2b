@@ -16,35 +16,35 @@ class Pix
     public function transfer($data)
     {
         try {
-            if ( ! $this->pix_data_is_valid($data) ) {
+            if ( ! $this->pixDataIsValid($data) ) {
                 throw new \Exception('Dados inválidos.');
             }
 
-            return $this->http->post('/pix/payment/', $data);
+            return $this->http->post('/pix/payment', $data);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function pix_data_is_valid($data)
+    public function pixDataIsValid($data)
     {
         return ! (
-            empty($pixData['amount']) OR
-            empty($pixData['identifier']) OR
-            empty($pixData['description']) OR
-            empty($pixData['to']['key']) OR
-            empty($pixData['to']['type']) OR
-            empty($pixData['to']['timestamp']) OR
-            empty($pixData['to']['isFavorite']) OR
-            empty($pixData['to']['status']) OR
-            empty($pixData['to']['statusResolutionTimestamp']) OR
-            empty($pixData['to']['institution']) OR
-            empty($pixData['to']['institutionName']) OR
-            empty($pixData['to']['branch']) OR
-            empty($pixData['to']['accountNumber']) OR
-            empty($pixData['to']['accountType']) OR
-            empty($pixData['to']['name']) OR
-            empty($pixData['to']['document'])
+            empty($data['amount']) OR
+            empty($data['identifier']) OR
+            empty($data['description']) OR
+            empty($data['to']['key']) OR
+            empty($data['to']['type']) OR
+            empty($data['to']['timestamp']) OR
+            empty($data['to']['isFavorite']) OR
+            empty($data['to']['status']) OR
+            empty($data['to']['statusResolutionTimestamp']) OR
+            empty($data['to']['institution']) OR
+            empty($data['to']['institutionName']) OR
+            empty($data['to']['branch']) OR
+            empty($data['to']['accountNumber']) OR
+            empty($data['to']['accountType']) OR
+            empty($data['to']['name']) OR
+            empty($data['to']['document'])
         );
     }
 }
