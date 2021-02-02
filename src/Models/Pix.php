@@ -3,6 +3,7 @@
 namespace BeeDelivery\AtarB2B\Models;
 
 use BeeDelivery\AtarB2B\Utils\Connection;
+use Illuminate\Support\Facades\Validator;
 
 class Pix
 {
@@ -16,9 +17,7 @@ class Pix
     public function transfer($data)
     {
         try {
-            if ( ! $this->pixDataIsValid($data) ) {
-                throw new \Exception('Dados inválidos.');
-            }
+            $this->validatePixData($data);
 
             return $this->http->post('/pix/payment', $data);
         } catch (\Exception $e) {
@@ -26,25 +25,37 @@ class Pix
         }
     }
 
-    public function pixDataIsValid($data)
+    public function validatePixData($data)
     {
-        return ! (
-            empty($data['amount']) OR
-            empty($data['identifier']) OR
-            empty($data['description']) OR
-            empty($data['to']['key']) OR
-            empty($data['to']['type']) OR
-            empty($data['to']['timestamp']) OR
-            empty($data['to']['isFavorite']) OR
-            empty($data['to']['status']) OR
-            empty($data['to']['statusResolutionTimestamp']) OR
-            empty($data['to']['institution']) OR
-            empty($data['to']['institutionName']) OR
-            empty($data['to']['branch']) OR
-            empty($data['to']['accountNumber']) OR
-            empty($data['to']['accountType']) OR
-            empty($data['to']['name']) OR
-            empty($data['to']['document'])
-        );
+        $validator = Validator::make($data, [
+            'amount' => 'required|integer',
+            'identifier' => 'string',
+            'description' => 'string',
+            'to.key' => 'required|string',
+            'to.type' => 'required|string',
+            'to.timestamp' => 'required|string',
+            'to.isFavorite' => 'required|bool',
+            'to.status' => 'required|string',
+            'to.statusResolutionTimestamp' => 'required|string',
+            'to.institution' => 'required|string',
+            'to.institutionName' => 'required|string',
+            'to.branch' => 'required|string',
+            'to.accountNumber' => 'required|string',
+            'to.accountType' => 'required|string',
+            'to.name' => 'required|string',
+            'to.document' => 'required|string'
+        ]);
+
+        // TODO: chamar método para verificar o tipo da chave pix
+
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            throw new \Exception($error);
+        }
+
+        if (! is_int($data['amount'])) {
+            $error = 'The amount must be an integer.';
+            throw new \Exception($error);
+        }
     }
 }
