@@ -25,10 +25,17 @@ class Pix
         }
     }
 
+    public function validateKey($key)
+    {
+        try {
+            return $this->http->get('/pix/keys', $key);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
     public function validatePixData($data)
     {
-        $data = $this->setKeyType($data);
-
         $validator = Validator::make($data, [
             'amount' => 'required|integer',
             'identifier' => 'required|string',
@@ -57,36 +64,6 @@ class Pix
         if (! is_int($data['amount'])) {
             $error = 'The amount must be an integer.';
             throw new \Exception($error);
-        }
-
-        return $data;
-    }
-    
-    public function setKeyType($data)
-    {
-        if (empty($data['to']['type'])) {
-            $key = $data['to']['key'];
-
-            switch ($key) {
-                case (filter_var($key, FILTER_VALIDATE_EMAIL)):
-                    $data['to']['type'] = 'email';
-                    break;
-                case (is_numeric($key) && strlen($key) == 11):
-                    $data['to']['type'] = 'cpf';
-                    break;
-                case (is_numeric($key) && strlen($key) == 14):
-                    $data['to']['type'] = 'cnpj';
-                    break;
-                case (is_numeric($key) && strlen($key) == 13):
-                    $data['to']['type'] = 'phone';
-                    break;
-                case (strlen($key) == 32):
-                    $data['to']['type'] = 'evp';
-                    break;
-                default:
-                    $error = 'Pix key could not be identified.';
-                    throw new \Exception($error);
-            }
         }
 
         return $data;
