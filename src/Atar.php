@@ -2,7 +2,7 @@
 
 namespace BeeDelivery\AtarB2B;
 
-use BeeDelivery\AtarB2B\Models\Pix;
+use BeeDelivery\AtarB2B\Pix;
 
 class Atar
 {

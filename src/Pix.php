@@ -1,6 +1,6 @@
 <?php
 
-namespace BeeDelivery\AtarB2B\Models;
+namespace BeeDelivery\AtarB2B;
 
 use BeeDelivery\AtarB2B\Utils\Connection;
 use Illuminate\Support\Facades\Validator;
