@@ -28,6 +28,8 @@ class Pix
     public function validateKey($key)
     {
         try {
+            $this->validateKeyType($key);
+
             return $this->http->get('/pix/keys', $key);
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -67,5 +69,39 @@ class Pix
         }
 
         return $data;
+    }
+
+    public function validateKeyType($key)
+    {
+        if (empty($key)) {
+            $error = 'Pix key is required.';
+            throw new \Exception($error);
+        }
+
+        switch ($key) {
+            /* E-mail */
+            case (filter_var($key, FILTER_VALIDATE_EMAIL)):
+                break;
+
+            /* CPF */
+            case (is_numeric($key) && strlen($key) == 11):
+                break;
+
+            /* CNPJ */
+            case (is_numeric($key) && strlen($key) == 14):
+                break;
+
+            /* Phone */
+            case (is_numeric($key) && strlen($key) == 13):
+                break;
+
+            /* EVP */
+            case (strlen($key) == 32):
+                break;
+
+            default:
+                $error = 'Pix key could not be identified.';
+                throw new \Exception($error);
+        }
     }
 }
