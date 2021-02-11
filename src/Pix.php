@@ -40,14 +40,9 @@ class Pix
     {
         $validator = Validator::make($data, [
             'amount' => 'required|integer',
-            'identifier' => 'required|string',
             'description' => 'required|string',
             'to.key' => 'required|string',
             'to.type' => 'required|string',
-            'to.timestamp' => 'required|string',
-            'to.isFavorite' => 'required|bool',
-            'to.status' => 'required|string',
-            'to.statusResolutionTimestamp' => 'required|string',
             'to.institution' => 'required|string',
             'to.institutionName' => 'required|string',
             'to.branch' => 'required|string',
