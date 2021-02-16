@@ -23,14 +23,11 @@ trait Helpers
         ]);
 
         if ($validator->fails()) {
-            $error = $validator->errors()->first();
-            throw new \Exception($error);
+            throw new \Exception($validator->errors()->first());
         }
 
-
         if (! is_int($data['amount'])) {
-            $error = 'The amount must be an integer.';
-            throw new \Exception($error);
+            throw new \Exception('The amount must be an integer.');
         }
 
         return $data;
@@ -39,8 +36,7 @@ trait Helpers
     public function validateKeyType($key)
     {
         if (empty($key)) {
-            $error = 'Pix key is required.';
-            throw new \Exception($error);
+            throw new \Exception('Pix key is required.');
         }
 
         switch ($key) {
@@ -65,8 +61,7 @@ trait Helpers
                 break;
 
             default:
-                $error = 'Pix key could not be identified.';
-                throw new \Exception($error);
+                throw new \Exception('Pix key could not be identified.');
         }
     }
 }

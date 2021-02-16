@@ -4,8 +4,8 @@ namespace BeeDelivery\AtarB2B\Utils;
 
 use Illuminate\Support\Facades\Http;
 
-class Connection {
-
+class Connection
+{
     public function get($url, $key)
     {
         try {
