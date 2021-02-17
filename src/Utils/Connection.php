@@ -16,7 +16,7 @@ class Connection
 
             return [
                 'code'     => $response->getStatusCode(),
-                'response' => json_decode($response->getBody()->getContents())
+                'response' => json_decode($response->getBody()->getContents(), true)
             ];
 
         } catch (\Exception $e){
@@ -37,7 +37,7 @@ class Connection
 
             return [
                 'code'     => $response->getStatusCode(),
-                'response' => json_decode($response->getBody()->getContents())
+                'response' => json_decode($response->getBody()->getContents(), true)
             ];
 
         } catch (\Exception $e){
