@@ -38,4 +38,13 @@ class Pix
             return $e->getMessage();
         }
     }
+
+    public function transferDetails($id)
+    {
+        try {
+            return $this->http->get('/pix/detail', $id);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
 }
