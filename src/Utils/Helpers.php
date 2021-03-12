@@ -57,7 +57,7 @@ trait Helpers
                 break;
 
             /* EVP */
-            case (strlen($key) == 32):
+            case (strlen($key) == 36):
                 break;
 
             default:
