@@ -10,7 +10,8 @@ class Connection
     {
         try {
             $response = Http::withHeaders([
-                'Atar-ApiKey' => config('atar.api_key')
+                'Atar-ApiKey' => config('atar.api_key'),
+                'Accept' => 'application/json'
             ])->withBasicAuth(config('atar.basic_user'), config('atar.basic_password'))
             ->get(config('atar.base_url') . $url . '/' . $key);
 
@@ -31,7 +32,8 @@ class Connection
     {
         try {
             $response = Http::withHeaders([
-                'Atar-ApiKey' => config('atar.api_key')
+                'Atar-ApiKey' => config('atar.api_key'),
+                'Accept' => 'application/json'
             ])->withBasicAuth(config('atar.basic_user'), config('atar.basic_password'))
             ->post(config('atar.base_url') . $url, $params);
 
