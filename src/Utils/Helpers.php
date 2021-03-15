@@ -45,15 +45,15 @@ trait Helpers
                 break;
 
             /* CPF */
-            case (is_numeric($key) && strlen($key) == 11):
+            case (strlen($key) == 11):
                 break;
 
             /* CNPJ */
-            case (is_numeric($key) && strlen($key) == 14):
+            case (strlen($key) == 14):
                 break;
 
             /* Phone */
-            case (is_numeric($key) && strlen($key) == 13):
+            case (strlen($key) == 13):
                 break;
 
             /* EVP */
