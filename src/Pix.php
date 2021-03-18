@@ -28,6 +28,17 @@ class Pix
         }
     }
 
+    public function qrcode($data)
+    {
+        try {
+            $data = $this->validateQrCodeData($data);
+
+            return $this->http->post('/pix/qrcode', $data);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
     public function validateKey($key)
     {
         try {

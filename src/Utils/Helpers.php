@@ -9,7 +9,7 @@ trait Helpers
     public function validatePixData($data)
     {
         $validator = Validator::make($data, [
-            'amount' => 'required|integer',
+            'amount' => 'required|integer|numeric',
             'description' => 'required|string',
             'to.key' => 'required|string',
             'to.type' => 'required|string',
@@ -20,6 +20,29 @@ trait Helpers
             'to.accountType' => 'required|string',
             'to.name' => 'required|string',
             'to.document' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            throw new \Exception($validator->errors()->first());
+        }
+
+        if (! is_int($data['amount'])) {
+            throw new \Exception('The amount must be an integer.');
+        }
+
+        return $data;
+    }
+
+    public function validateQrCodeData($data)
+    {
+        $validator = Validator::make($data, [
+            'amount' => 'required|integer|numeric',
+            'description' => 'required|string',
+            'key' => 'required|string',
+            'type' => 'required|string',
+            'payerDocument' => 'required|string',
+            'payerName' => 'required|string',
+            'identifier' => 'required|string'
         ]);
 
         if ($validator->fails()) {
