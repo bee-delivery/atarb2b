@@ -12,9 +12,9 @@ class Pix
 
     public $http;
 
-    public function __construct()
+    public function __construct($baas = false, $headers = array())
     {
-        $this->http = new Connection();
+        $this->http = new Connection($baas, $headers);
     }
 
     public function transfer($data)
