@@ -8,14 +8,16 @@ class Connection
 {
     protected $baas;
     protected $headers;
+    protected $baseUrl;
     protected $user;
     protected $pass;
     protected $apiKey;
 
-    public function __construct($baas = false, $headers = array())
+    public function __construct($baas = false, $headers = array(), $baseUrl = null)
     {
         $this->baas = $baas;
         $this->headers = $headers;
+        $this->baseUrl = empty($baseUrl) ? config('atar.base_url') : $baseUrl;
         $this->apiKey = config('atar.api_key');
         $this->user = config('atar.basic_user');
         $this->pass = config('atar.basic_password');
@@ -35,7 +37,7 @@ class Connection
                 'Accept' => 'application/json'
             ], $this->headers))
             ->withBasicAuth($this->user, $this->pass)
-            ->get(config('atar.base_url') . $url . '/' . $key);
+            ->get($this->baseUrl . $url . '/' . $key);
 
             return [
                 'code'     => $response->getStatusCode(),
@@ -63,7 +65,7 @@ class Connection
                 'Accept' => 'application/json'
             ], $this->headers))
             ->withBasicAuth($this->user, $this->pass)
-            ->post(config('atar.base_url') . $url, $params);
+            ->post($this->baseUrl . $url, $params);
 
             return [
                 'code'     => $response->getStatusCode(),

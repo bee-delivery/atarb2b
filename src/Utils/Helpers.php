@@ -33,6 +33,34 @@ trait Helpers
         return $data;
     }
 
+    function validateEntitieData($data){
+        $validator = Validator::make($data, [
+            'name' => 'required',
+            'document' => 'required',
+            'documentType' => 'required',
+            'email' => 'required|email',
+            'birthDate' => 'required',
+            'mothersName' => 'required|string',
+            'phone' => 'required|string',
+            'citizenship' => 'required',
+            'ppe' => 'boolean',
+            'addresses.street' => 'required',
+            'addresses.streetNumber' => 'required',
+            'addresses.neighborhood' => 'required',
+            'addresses.city' => 'required',
+            'addresses.state' => 'required',
+            'addresses.country' => 'required',
+            'addresses.zipcode' => 'required',
+            'gender' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            throw new \Exception($validator->errors()->first());
+        }
+
+        return $data;
+    }
+
     public function validateQrCodeData($data)
     {
         $validator = Validator::make($data, [
