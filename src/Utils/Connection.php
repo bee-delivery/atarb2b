@@ -27,7 +27,7 @@ class Connection
             if($this->baas == true){
                 $this->apiKey = config('atar.baas_api_key');
                 $this->user = config('atar.baas_basic_user');
-                $this->pass = config('atar.baas_basic_user');
+                $this->pass = config('atar.baas_basic_password');
             }
             $response = Http::withHeaders(
                 array_merge([
